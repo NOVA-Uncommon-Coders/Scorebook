@@ -1,5 +1,7 @@
 package com.theironyard.novauc.controllers;
+import com.theironyard.novauc.BatterRepo;
 import com.theironyard.novauc.entities.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,9 @@ public class GameController {
     static ArrayList<Pitcher> homePitcherList = new ArrayList<>();
     static ArrayList<Pitcher> awayPitcherList = new ArrayList<>();
 
+    @Autowired
+    BatterRepo batterStorage;
+
 
 
 
@@ -51,7 +56,6 @@ public class GameController {
         model.addAttribute("userName", users);
         model.addAttribute("currentBatter", currentBatter);
         return "home";
-
     }
 
 
@@ -292,7 +296,35 @@ public class GameController {
      }
 
     @RequestMapping(path = "/batter", method = RequestMethod.POST)
-    public String nextBatter() {
+    public String nextBatter(String result) {
+        Result updateResult = new Result();
+        if (result.equalsIgnoreCase("single")) {
+            updateResult.setHit(currentBatter.getResult().getHit() + 1);
+            updateResult.setAtBat(currentBatter.getResult().getAtBat() + 1);
+            updateResult.setOutcome(currentBatter.getResult().getOutcome() + " single");
+            currentBatter.setResult(updateResult);
+        } else if (result.equalsIgnoreCase("double")) {
+            updateResult.setHit(currentBatter.getResult().getHit() + 1);
+            updateResult.setAtBat(currentBatter.getResult().getAtBat() + 1);
+            updateResult.setOutcome(currentBatter.getResult().getOutcome() + " double");
+            currentBatter.setResult(updateResult);
+
+        } else if (result.equalsIgnoreCase("triple")) {
+            updateResult.setHit(currentBatter.getResult().getHit() + 1);
+            updateResult.setAtBat(currentBatter.getResult().getAtBat() + 1);
+            updateResult.setOutcome(currentBatter.getResult().getOutcome() + " triple");
+            currentBatter.setResult(updateResult);
+
+        }else if (result.equalsIgnoreCase("home run")) {
+            updateResult.setHit(currentBatter.getResult().getHit() + 1);
+            updateResult.setAtBat(currentBatter.getResult().getAtBat() + 1);
+            updateResult.setOutcome(currentBatter.getResult().getOutcome() + " Home Run");
+            currentBatter.setResult(updateResult);
+        }else if (result.equalsIgnoreCase("out")) {
+            updateResult.setAtBat(currentBatter.getResult().getAtBat() + 1);
+            currentBatter.setResult(updateResult);
+        }
+        batterStorage.save(currentBatter);
         if (innings.getTop().equals("T")) {
             currentPitcher = homePitcherList.get(homePitcherCounter);
             currentBatter = players.get(awayBattingOrder);

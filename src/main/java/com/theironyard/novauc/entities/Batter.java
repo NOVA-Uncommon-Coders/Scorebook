@@ -1,11 +1,25 @@
 package com.theironyard.novauc.entities;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+
 /**
  * Created by jerieshasmith on 4/11/17.
  */
+@Entity
+@Table(name= "batters")
 public class Batter extends Player {
-    String results;
+    @Id
+    @GeneratedValue
+    int id;
+
+    @ManyToOne
+    @JoinColumn
     Count batterCount;
+
+    @ManyToOne
+    @JoinColumn
+    Result result;
 
 
     public Batter(){
@@ -19,14 +33,23 @@ public class Batter extends Player {
     public Batter(String name, int number, String position, int posNumber) {
         super(name, number, position, posNumber);
         this.batterCount = new Count(0,0);
+        this.result = new Result(0,0,"");
     }
 
-    public String getResults() {
-        return results;
+    public int getId() {
+        return id;
     }
 
-    public void setResults(String results) {
-        this.results = results;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
     }
 
     public Count getBatterCount() {

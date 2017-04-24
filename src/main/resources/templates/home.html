@@ -80,6 +80,13 @@
     <button type="submit">Save</button>
 </form>
 <form action="/batter" method="post">
+    <select name="result">
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+        <option value="Triple">Triple</option>
+        <option value="Home Run">Home Run</option>
+        <option value="Out">Out</option>
+    </select>
     <button type="submit">Next Batter</button>
 </form>
     <form action="/pitcher" method="post">
@@ -112,7 +119,7 @@
                     <div class="panel-body">
                         <ol>
                         {{#player}}
-                        <li>{{name}} {{number}} {{position}} {{posNumber}} </li>
+                        <li>{{name}} {{number}} {{position}} {{posNumber}} {{result.hit}} {{result.atBat}}</li>
                         {{/player}}
                     </ol>
                     </div>
@@ -141,7 +148,7 @@
                     <div class="panel-body">
                 <ol>
                     {{#playerList}}
-                    <li>{{name}} {{number}} {{position}} {{posNumber}}</li>
+                    <li>{{name}} {{number}} {{position}} {{posNumber}} {{result.hit}} {{result.atBat}}</li>
                     {{/playerList}}
                 </ol>
 
